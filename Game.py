@@ -3,18 +3,20 @@ import os
 import time
 from Goblin import Goblin
 from Beast import Beast
-from Gremlin import Gremlin
+from Boss import Boss
 from ArcherTower import ArcherTower
+import random
 
 class Game:
     def __init__(self):
         self.width = 1100
         self.height = 700
         self.window = pygame.display.set_mode((self.width, self.height))
-        self.enemies=[Gremlin()]
-        self.towers=[ArcherTower(100, 580)]
+        self.enemies=[]
+        self.towers=[ArcherTower(100, 580), ArcherTower(488, 170), ArcherTower(900, 164)]
         self.lives=10
         self.bg = pygame.image.load(os.path.join("background", "bg.png"))
+        self.timer = time.time()
 
 
     def displayTitle(self):
@@ -44,11 +46,18 @@ class Game:
         self.displayTitle()
 
         while run:
+            if time.time() - self.timer > 1:
+                self.timer = time.time()
+                self.enemies.append(random.choice([Goblin(), Beast(), Boss()]))
             clock.tick(30)
             #pygame.time.delay(200)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
+
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    pos = pygame.mouse.get_pos()
+                    print(pos)
 
 
 

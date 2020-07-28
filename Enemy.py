@@ -13,7 +13,8 @@ class Enemy:
         self.pos = 0
         self.pos_x= self.path[self.pos][0]
         self.pos_y = self.path[self.pos][1]
-        self.health = 100
+        self.health= 0
+        self.initial_health= 0
 
     def move(self):
         """
@@ -43,7 +44,7 @@ class Enemy:
         change_y = change_y / distance
 
 
-        vel = 1
+        vel = 2
 
         self.pos_x += change_x * vel
         self.pos_y += change_y * vel
@@ -62,7 +63,20 @@ class Enemy:
                 self.pos += 1
 
 
+    def drawHealth(self, window):
+        """
+        draws the given health of the enemy
 
+        :param window:
+        :return:
+        """
+
+        length = 50
+        health_bar = (self.health/self.initial_health) * length
+        #red color
+        pygame.draw.rect(window, (255, 0 ,0 ), (self.pos_x - (length/2) , self.pos_y - (self.height/2), length, 10), 0)
+        #health bar in green
+        pygame.draw.rect(window, (0, 255, 0), (self.pos_x - (length /2), self.pos_y - (self.height / 2), health_bar, 10),0)
 
     def drawEnemy(self, window):
         """
@@ -81,7 +95,10 @@ class Enemy:
 
         #display the image on to the window, want to blit on self.pos_y - 32 and self.pos_x - 32
         # so that the image is centered at the point considering that image is 64x64
-        window.blit(self.img, (self.pos_x -32, self.pos_y-32))
+        window.blit(self.img, (self.pos_x - (self.img.get_width()/2) , self.pos_y- (self.img.get_height()/2) ))
+
+        #draw the health of th enemy
+        self.drawHealth(window)
 
         #moves the enemy along the path
         self.move()

@@ -12,6 +12,7 @@ class Tower:
         #keeps track of the selling price of the tower at each level
         self.sell_price = [0,0,0]
         self.level= 1
+        self.damage= 1
 
         #position of the tower
         self.pos_x = x
@@ -36,10 +37,11 @@ class Tower:
     def sell(self):
         return self.sell_price[self.level - 1]
 
-    #increments the tower level
+    #increments the tower level and damage upon upgrade
     def upgrade(self):
         if(self.level < len(self.tower_images)):
             self.level += 1
+            self.damage +=1
 
     #returns the cost of the next tower price
     def get_upgradeCost(self):

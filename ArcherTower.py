@@ -2,15 +2,19 @@ from Tower import Tower
 import os
 import pygame
 import math
+import time
 
 class ArcherTower(Tower):
     def __init__(self, x, y):
         super() .__init__(x, y)
         self.archer_images = []
         self.archer_count = 0
-        self.range = 100
+        self.range = 150
         self.inRange = False
         self.isLeft = False
+        self.damage = 1
+        self.hit_timer = pygame.time.get_ticks()
+        self.cooldown = 700
 
         #loads the tower images into the list
         for i in range(7, 10):
@@ -60,6 +64,7 @@ class ArcherTower(Tower):
     def changeRange(self, r):
         self.range = r
 
+
     def attack(self, enemies):
         """
         given a list of enemies, determines if the tower should attack enemies based on the range
@@ -88,6 +93,18 @@ class ArcherTower(Tower):
         if len(enemy_closest) > 0:
             #grab the closest enemy which is the first element because the list is sorted
             first_enemy = enemy_closest[0]
+
+
+            # This is for the cooldown, every 700 miliseconds the tower will fire
+            now = pygame.time.get_ticks()
+            if now - self.hit_timer >= self.cooldown:
+                self.hit_timer = now
+
+                # calculate the damage inflicted on the enemy
+                first_enemy.health -= self.damage
+                #if the health bar drops to 0, remove the enemy from the list
+                if(first_enemy.health<= 0):
+                    enemies.remove(first_enemy)
 
             #if the enemy is on the left of the tower and the isLeft property is false
             if first_enemy.pos_x < self.pos_x and not self.isLeft:
