@@ -35,11 +35,8 @@ class ArcherTower(Tower):
             archer = pygame.transform.scale(archer, (32, 32))
             self.archer_images.append(archer)
 
+
     def drawTower(self, window):
-        #draw range of transparent circle
-        surface = pygame.Surface((self.range*4, self.range*4), pygame.SRCALPHA, 32)
-        pygame.draw.circle(surface, (169,169,169, 100), (self.range, self.range), self.range, 0)
-        window.blit(surface, (self.pos_x - self.range, self.pos_y - self.range))
 
         super().drawTower(window)
 

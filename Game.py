@@ -7,6 +7,8 @@ from Boss import Boss
 from ArcherTower import ArcherTower
 import random
 
+pygame.font.init()
+
 class Game:
     def __init__(self):
         self.width = 1100
@@ -17,14 +19,30 @@ class Game:
         self.lives=10
         self.bg = pygame.image.load(os.path.join("background", "bg.png"))
         self.timer = time.time()
+        self.heart = pygame.image.load(os.path.join("assets", "heart.png"))
+        self.text = pygame.font.Font('freesansbold.ttf', 40)
 
 
     def displayTitle(self):
         pygame.display.set_caption("Tower Defense")
 
+    #displays heart icon and number of lives onto screen
+    def displayLives(self):
+        # transform the heart icon to 32 x 32
+        self.heart = pygame.transform.scale(self.heart, (32, 32))
+        # blit onto the screen
+        self.window.blit(self.heart, (self.width - 42, 10))
+
+        font = self.text.render( 'x' + str(self.lives), True, (255, 255, 255))
+
+        self.window.blit(font, (self.width - 115, 10 ))
+
+
     def drawWindow(self):
         self.bg = pygame.transform.scale(self.bg, (self.width, self.height))
         self.window.blit(self.bg, (0, 0))
+
+        self.displayLives()
 
         #draw all the enemies in the list onto the window
         for enemy in self.enemies:
@@ -35,8 +53,6 @@ class Game:
             tower.drawTower(self.window)
 
         pygame.display.update()
-
-
 
 
     def run(self):
@@ -57,11 +73,9 @@ class Game:
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     pos = pygame.mouse.get_pos()
-                    print(pos)
+                    for tower in self.towers:
+                        tower.click(pos[0], pos[1])
 
-
-
-            #to_delete=[]
 
             #loops through the enemies and check their position
             for enemy in self.enemies:
@@ -70,10 +84,6 @@ class Game:
 
             for tower in self.towers:
                 tower.attack(self.enemies)
-
-            #delete the enemy fromt eh array
-            #for d in to_delete:
-             #   self.enemies.remove(d)
 
 
             self.drawWindow()
