@@ -2,14 +2,17 @@ import pygame
 import os
 import time
 from Goblin import Goblin
+from Beast import Beast
+from Gremlin import Gremlin
+from ArcherTower import ArcherTower
 
 class Game:
     def __init__(self):
         self.width = 1100
         self.height = 700
         self.window = pygame.display.set_mode((self.width, self.height))
-        self.enemies=[Goblin()]
-        self.towers=[]
+        self.enemies=[Gremlin()]
+        self.towers=[ArcherTower(100, 580)]
         self.lives=10
         self.bg = pygame.image.load(os.path.join("background", "bg.png"))
 
@@ -25,6 +28,10 @@ class Game:
         for enemy in self.enemies:
             enemy.drawEnemy(self.window)
 
+        #draw towers
+        for tower in self.towers:
+            tower.drawTower(self.window)
+
         pygame.display.update()
 
 
@@ -38,22 +45,26 @@ class Game:
 
         while run:
             clock.tick(30)
-            pygame.time.delay(200)
+            #pygame.time.delay(200)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
 
 
 
-            to_delete=[]
+            #to_delete=[]
 
             #loops through the enemies and check their position
             for enemy in self.enemies:
                 if enemy.pos_y > 700:
-                    to_delete.append(enemy)
+                    self.enemies.remove(enemy)
+
+            for tower in self.towers:
+                tower.attack(self.enemies)
+
             #delete the enemy fromt eh array
-            for d in to_delete:
-                self.enemies.remove(d)
+            #for d in to_delete:
+             #   self.enemies.remove(d)
 
 
             self.drawWindow()
