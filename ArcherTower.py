@@ -15,6 +15,7 @@ class ArcherTower(Tower):
         self.damage = 1
         self.hit_timer = pygame.time.get_ticks()
         self.cooldown = 700
+        self.price = [200,500,700]
 
         #loads the tower images into the list
         for i in range(7, 10):
@@ -22,10 +23,6 @@ class ArcherTower(Tower):
             tower = pygame.image.load(os.path.join("towers/archerTower",  str_add + ".png"))
             tower = pygame.transform.scale(tower, (64, 64))
             self.tower_images.append(tower)
-
-        #set width and heigh to 64 because that is the dimension of the tower after the transform
-        self.width = 64
-        self.height = 64
 
 
         #loads the archer images into the archer image list

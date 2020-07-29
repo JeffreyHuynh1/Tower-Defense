@@ -6,6 +6,7 @@ from Beast import Beast
 from Boss import Boss
 from ArcherTower import ArcherTower
 import random
+from Menu import Menu
 
 pygame.font.init()
 
@@ -15,12 +16,17 @@ class Game:
         self.height = 700
         self.window = pygame.display.set_mode((self.width, self.height))
         self.enemies=[]
-        self.towers=[ArcherTower(100, 580), ArcherTower(488, 170), ArcherTower(900, 164)]
+        #ArcherTower(100, 580), , ArcherTower(900, 164)
+        self.towers=[ ArcherTower(488, 170)]
         self.lives=10
+        self.score = 1000
         self.bg = pygame.image.load(os.path.join("background", "bg.png"))
         self.timer = time.time()
+
         self.heart = pygame.image.load(os.path.join("assets", "heart.png"))
+        self.jewel = pygame.image.load(os.path.join("assets", "jewel.png"))
         self.text = pygame.font.Font('freesansbold.ttf', 40)
+        self.menu = Menu(0,0)
 
 
     def displayTitle(self):
@@ -31,18 +37,36 @@ class Game:
         # transform the heart icon to 32 x 32
         self.heart = pygame.transform.scale(self.heart, (32, 32))
         # blit onto the screen
-        self.window.blit(self.heart, (self.width - 42, 10))
+        self.window.blit(self.heart, (15, 10))
 
-        font = self.text.render( 'x' + str(self.lives), True, (255, 255, 255))
+        font = self.text.render( str(self.lives), True, (255, 255, 255))
 
-        self.window.blit(font, (self.width - 115, 10 ))
+        self.window.blit(font, (self.heart.get_width() + 20, 10 ))
+
+
+    def displayScore(self):
+        #transform the jewel icon to 32 x 32
+        self.jewel = pygame.transform.scale(self.jewel, (32,32))
+        #blit onto the screen
+        self.window.blit(self.jewel, (15, 50))
+
+        font = self.text.render( str(self.score), True, (255,255,255))
+        self.window.blit(font, (self.jewel.get_width() + 20, 50))
+
 
 
     def drawWindow(self):
         self.bg = pygame.transform.scale(self.bg, (self.width, self.height))
         self.window.blit(self.bg, (0, 0))
 
+        #draw menu on screen
+        self.menu.drawMenu(self.window)
+
+        #displays how many lives you have
         self.displayLives()
+
+        #displays your current score
+        self.displayScore()
 
         #draw all the enemies in the list onto the window
         for enemy in self.enemies:
@@ -76,13 +100,17 @@ class Game:
 
                     #check to see if any of the towers were clicked
                     for tower in self.towers:
-                        tower.click(pos[0], pos[1])
+                        tower.click(pos[0], pos[1], self.score)
+                        #tower.upgradeMenu.button.buttonClicked(pos[0],pos[1])
 
 
             #loops through the enemies and check their position
             for enemy in self.enemies:
                 if enemy.pos_y > 700:
                     self.enemies.remove(enemy)
+
+                    #remove a life if the enemy makes it through the whole path
+                    self.lives -=1
 
             for tower in self.towers:
                 tower.attack(self.enemies)

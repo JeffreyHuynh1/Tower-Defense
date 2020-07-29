@@ -1,5 +1,6 @@
 import os
 import pygame
+from Menu import UpgradeMenu
 
 '''
 Abstract class 
@@ -20,10 +21,14 @@ class Tower:
         self.pos_x = x
         self.pos_y = y
 
-        self.width = 0
-        self.height = 0
+        self.width = 64
+        self.height = 64
+
+        #pass in x and y coordinates and adjust them accordingly to display under he tower
+        self.upgradeMenu = UpgradeMenu( self.pos_x - self.width , self.pos_y , self)
 
         self.isSelected = False
+        self.showMenu = False
 
     #draws the range radius of the tower if it is clicked
     def drawRadius(self, window):
@@ -41,7 +46,12 @@ class Tower:
         window.blit(img, (self.pos_x - img.get_width()//2, self.pos_y - img.get_height()//2))
         self.drawRadius(window)
 
-    def click(self, X, Y):
+        #if show menu is true then draw it onto the screen
+        if self.showMenu:
+            self.upgradeMenu.drawMenu(window)
+
+
+    def click(self, X, Y, score):
         """
         checks to see if the tower is clicked
         :param X: x coordinate of click
@@ -53,15 +63,32 @@ class Tower:
         if X >= self.pos_x - self.width//2  and X<= self.pos_x + self.width//2:
             if Y>= self.pos_y - self.height//2 and  Y<= self.pos_y + self.height//2 :
                 self.isSelected= True
+                #menu only shows if the tower is clicked
+                self.showMenu= True
+
+
             else:
                 self.isSelected = False
+                self.showMenu = False
         else:
             self.isSelected = False
+            self.showMenu = False
 
         '''
         both the else checks are needs so that if either position of the X or Y click is not in range, the radius will not show
         if only one of them is there, radius will show if either of the conditions is true
         '''
+
+        # if one of the upgrade button is clicked then isSelected and showMenu is True and we still need to show the menu
+        if self.upgradeMenu.button.buttonClicked(X, Y):
+            self.isSelected = True
+            self.showMenu = True
+
+            #if the upgrade button is clicked then we have to perform the upgrade
+            if score >= self.get_upgradeCost():
+                #perform upgrade
+                self.upgrade()
+
 
 
     #sells the tower and returns an int, which is the sell price
