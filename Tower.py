@@ -50,11 +50,18 @@ class Tower:
         """
 
         #changes state of the isSelected accordingly if the click is with range of the tower
-        if self.pos_x - self.width/2 < X and X< self.pos_x + self.width/2:
-            if self.pos_y - self.height/2 < Y and Y < self.pos_y + self.height/2 :
+        if X >= self.pos_x - self.width//2  and X<= self.pos_x + self.width//2:
+            if Y>= self.pos_y - self.height//2 and  Y<= self.pos_y + self.height//2 :
                 self.isSelected= True
+            else:
+                self.isSelected = False
         else:
-            self.isSelected= False
+            self.isSelected = False
+
+        '''
+        both the else checks are needs so that if either position of the X or Y click is not in range, the radius will not show
+        if only one of them is there, radius will show if either of the conditions is true
+        '''
 
 
     #sells the tower and returns an int, which is the sell price

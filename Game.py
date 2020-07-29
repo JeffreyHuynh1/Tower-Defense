@@ -73,6 +73,8 @@ class Game:
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     pos = pygame.mouse.get_pos()
+
+                    #check to see if any of the towers were clicked
                     for tower in self.towers:
                         tower.click(pos[0], pos[1])
 
