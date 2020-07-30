@@ -100,8 +100,9 @@ class Game:
 
                     #check to see if any of the towers were clicked
                     for tower in self.towers:
-                        tower.click(pos[0], pos[1], self.score)
-                        #tower.upgradeMenu.button.buttonClicked(pos[0],pos[1])
+                        #returns an int based on whether or not the upgrade button was clicked, if so deduct it from the players score
+                        upgrade_cost = tower.click(pos[0], pos[1], self.score)
+                        self.score -= upgrade_cost
 
 
             #loops through the enemies and check their position
@@ -109,11 +110,13 @@ class Game:
                 if enemy.pos_y > 700:
                     self.enemies.remove(enemy)
 
-                    #remove a life if the enemy makes it through the whole path
-                    self.lives -=1
+                    #remove a life if the enemy makes it through the whole path based on the damage property in enemy class
+                    self.lives -= enemy.damage
 
             for tower in self.towers:
-                tower.attack(self.enemies)
+                # tower attack returns an int based on whether or not an enemy is killed, add this to the score
+                add_score = tower.attack(self.enemies)
+                self.score += add_score
 
 
             self.drawWindow()

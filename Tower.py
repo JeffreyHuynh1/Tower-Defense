@@ -54,11 +54,13 @@ class Tower:
     def click(self, X, Y, score):
         """
         checks to see if the tower is clicked
+        true if the click matches the towers position, else return false
         :param X: x coordinate of click
         :param Y: y coordinate of click
-        :return: true if the click matches the towers position, else return false
+        :return: returns the cost of the upgrade, if the upgrade button is clicked returns the cost so it can be deducted from the players money
+                other wise returns 0 because nothing is purchased
         """
-
+        upgrade_cost = 0
         #changes state of the isSelected accordingly if the click is with range of the tower
         if X >= self.pos_x - self.width//2  and X<= self.pos_x + self.width//2:
             if Y>= self.pos_y - self.height//2 and  Y<= self.pos_y + self.height//2 :
@@ -86,8 +88,11 @@ class Tower:
 
             #if the upgrade button is clicked then we have to perform the upgrade
             if score >= self.get_upgradeCost():
+                upgrade_cost = self.get_upgradeCost()
                 #perform upgrade
                 self.upgrade()
+        return upgrade_cost
+
 
 
 

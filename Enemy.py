@@ -16,6 +16,13 @@ class Enemy:
         self.health= 0
         self.initial_health= 0
 
+        #how much damage they inflict
+        self.damage = 0
+
+        # how much money they give to the player after being killed
+        self.money = 0
+
+
     def move(self):
         """
         traverses through the path array which contains a list of points , need to calculate the distance between points

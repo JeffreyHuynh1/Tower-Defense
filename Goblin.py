@@ -16,6 +16,9 @@ class Goblin(Enemy):
         self.images= imgs[:]
         self.width= 64
         self.height = 64
-        self.health = 1
-        self.initial_health=1
+        self.health = 2
+        self.initial_health= 2
+
+        self.damage = 1
+        self.money = self.initial_health * 100
 

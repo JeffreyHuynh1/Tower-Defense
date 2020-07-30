@@ -7,6 +7,7 @@ class Button():
         self.pos_x = x
         self.pos_y = y
         self.image = img
+        self.type = type
 
 
     #draws button onto screen given x and y parameters passed into the constructor
@@ -29,3 +30,6 @@ class Button():
 
         #print('nope')
         return False
+
+    def get_buttonType(self):
+        return self.type

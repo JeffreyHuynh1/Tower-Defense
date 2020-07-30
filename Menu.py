@@ -42,6 +42,7 @@ class UpgradeMenu(Menu):
         super().drawMenu(window)
 
         self.button.drawButton(window)
+        self.button.type = "Upgrade"
 
         #displays jewel icon into the menu bar
         window.blit(self.jewelImage, (self.pos_x + self.image.get_width() - self.jewelImage.get_width() - 10 , self.pos_y + 5))

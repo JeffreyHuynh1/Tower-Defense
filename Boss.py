@@ -21,3 +21,5 @@ class Boss(Enemy):
         self. width = 128
         self.health = 5
         self.initial_health= 5
+        self.damage = 3
+        self.money = self.initial_health * 100

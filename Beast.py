@@ -19,3 +19,5 @@ class Beast(Enemy):
         self.height = 64
         self.health = 3
         self.initial_health=3
+        self.damage = 2
+        self.money = self.initial_health * 100

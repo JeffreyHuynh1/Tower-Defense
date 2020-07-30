@@ -62,9 +62,9 @@ class ArcherTower(Tower):
     def attack(self, enemies):
         """
         given a list of enemies, determines if the tower should attack enemies based on the range
-        :return: None
+        :return: deals damage to the enemies and returns value based on whether or not an enemy is destroyed
         """
-
+        money = 0
         self.inRange = False
         enemy_closest = []
 
@@ -98,6 +98,8 @@ class ArcherTower(Tower):
                 first_enemy.health -= self.damage
                 #if the health bar drops to 0, remove the enemy from the list
                 if(first_enemy.health<= 0):
+                    # set money to the enemies money property because they killed it and should be added to score
+                    money = first_enemy.money
                     enemies.remove(first_enemy)
 
             #if the enemy is on the left of the tower and the isLeft property is false
@@ -113,5 +115,8 @@ class ArcherTower(Tower):
                 self.isLeft = False
                 for i, img in enumerate(self.archer_images):
                     self.archer_images[i] = pygame.transform.flip(img, True, False)
+
+        print(money)
+        return money
 
 
