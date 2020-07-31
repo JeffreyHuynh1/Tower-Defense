@@ -29,6 +29,14 @@ class Enemy:
         :return:
         """
 
+        # grab specific image, program will be running at 30fps so each image will get 3 seconds for display
+        self.img = self.images[self.animation_count // 3]
+        self.animation_count += 1
+
+        # once the end of the list is hit, set the animation count back to 0
+        if self.animation_count >= len(self.images) * 3:
+            self.animation_count = 0
+
         #get starting position of enemy x,y, and get the next point where they need to travel to
         x1, y1 = self.path[self.pos]
 
@@ -92,13 +100,7 @@ class Enemy:
         :return:
         """
 
-        #grab specific image, program will be running at 30fps so each image will get 3 seconds for display
-        self.img= self.images[self.animation_count//3]
-        self.animation_count += 1
 
-        #once the end of the list is hit, set the animation count back to 0
-        if self.animation_count >= len(self.images)*3:
-            self.animation_count=0
 
         #display the image on to the window, want to blit on self.pos_y - 32 and self.pos_x - 32
         # so that the image is centered at the point considering that image is 64x64
@@ -107,5 +109,4 @@ class Enemy:
         #draw the health of th enemy
         self.drawHealth(window)
 
-        #moves the enemy along the path
-        self.move()
+
