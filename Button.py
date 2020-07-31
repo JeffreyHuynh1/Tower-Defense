@@ -7,7 +7,7 @@ class Button():
         self.pos_x = x
         self.pos_y = y
         self.image = img
-        self.type = type
+        self.type = None
 
 
     #draws button onto screen given x and y parameters passed into the constructor
@@ -25,7 +25,6 @@ class Button():
         if X >= self.pos_x  and X<= self.pos_x + self.image.get_width():
             #print('in x')
             if Y>= self.pos_y  and  Y<= self.pos_y + self.image.get_height() :
-                #print('is clicked')
                 return True
 
         #print('nope')

@@ -10,6 +10,7 @@ class ArcherTower(Tower):
         self.archer_images = []
         self.archer_count = 0
         self.range = 150
+        self.initialRange = 150
         self.inRange = False
         self.isLeft = False
         self.damage = 1
@@ -116,7 +117,36 @@ class ArcherTower(Tower):
                 for i, img in enumerate(self.archer_images):
                     self.archer_images[i] = pygame.transform.flip(img, True, False)
 
-        print(money)
         return money
+
+
+
+# loads the tower images into the list
+towerShortImages = []
+towerShortArcher = []
+for i in range(2, 4):
+    str_add = str(i)
+    tower = pygame.image.load(os.path.join("towers/archerTower", str_add + ".png"))
+    tower = pygame.transform.scale(tower, (64, 64))
+    towerShortImages.append(tower)
+
+# loads the archer images into the archer image list
+for i in range(64, 70):
+    str_add = str(i)
+    archer = pygame.image.load(os.path.join("towers/archerTower/archers", str_add + ".png"))
+    archer = pygame.transform.scale(archer, (32, 32))
+    towerShortArcher.append(archer)
+
+
+class ArcherTowerShort(ArcherTower):
+    def __init__(self, x, y):
+        super() .__init__(x, y)
+        self.archer_images = []
+        self.range = 100
+        self.damage = 2
+        self.cooldown = 1000
+        self.price = [300,600,800]
+        self.archer_images = towerShortArcher[:]
+        self.tower_images = towerShortImages[:]
 
 

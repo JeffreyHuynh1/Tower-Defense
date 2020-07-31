@@ -51,6 +51,59 @@ class UpgradeMenu(Menu):
         text = self.font.render(str(self.tower.get_upgradeCost()), True, (255,255,255))
         window.blit(text, (self.pos_x + self.image.get_width() - self.jewelImage.get_width() - 10,self.pos_y + 38 ))
 
+class MainMenu(Menu):
+    def __init__(self, x, y):
+        super() .__init__(x,y)
+        self.image = pygame.transform.scale(self.image, (70, 300))
+        self.rangeImg = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'range.png')), (50, 50))
+        self.damageImg = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'damage.png')), (50, 50))
+        self.shortImg = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'short.png')), (50, 50))
+        self.longImg = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'long.png')), (50, 50))
+
+        self.jewelImage = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'jewel.png')), (15, 15))
+
+        self.buttonShort = Button( 10, self.pos_y + 10, self.shortImg)
+        self.buttonLong = Button( 10, self.pos_y + (self.image.get_height() * .25) + 5, self.longImg)
+        self.buttonRange = Button(10, self.pos_y + (self.image.get_height() * .5), self.rangeImg)
+        self.buttonDamage = Button(10, self.pos_y + (self.image.get_height() * .75), self.damageImg)
+
+        self.buttons = [self.buttonShort, self.buttonLong, self.buttonRange, self.buttonDamage]
+
+        self.font = pygame.font.Font('freesansbold.ttf', 15)
+
+    def drawMenu(self, window):
+        super().drawMenu(window)
+
+        self.buttonRange.drawButton(window)
+        self.buttonRange.type = 'range'
+
+        self.buttonDamage.drawButton(window)
+        self.buttonDamage.type = 'damage'
+
+        self.buttonShort.drawButton(window)
+        self.buttonShort.type = 'short'
+
+        self.buttonLong.drawButton(window)
+        self.buttonLong.type = 'long'
+
+        window.blit(self.jewelImage, (0, self.pos_y + 60 ))
+        window.blit(self.jewelImage,( 0, self.pos_y + (self.image.get_height() * .25) + 55))
+        window.blit(self.jewelImage,(0, self.pos_y + (self.image.get_height() * .5) + 50))
+        window.blit(self.jewelImage,(0, self.pos_y + (self.image.get_height() * .75) + 50))
+
+        # displays the cost of towers onto the menu
+        textShort = self.font.render('500', True, (255, 255, 255))
+        window.blit(textShort, (self.buttonRange.pos_x/2 + 15, self.pos_y + 60 ))
+
+        textLong = self.font.render('750', True, (255, 255, 255))
+        window.blit(textLong, (self.buttonRange.pos_x / 2 + 15, self.pos_y + (self.image.get_height() * .25) + 55))
+
+        textSupport = self.font.render('1000', True, (255, 255, 255))
+        window.blit(textSupport, (self.buttonRange.pos_x / 2 + 15, self.pos_y + (self.image.get_height() * .5) + 50))
+
+        window.blit(textSupport, (self.buttonRange.pos_x / 2 + 15, self.pos_y + (self.image.get_height() * .75) + 50))
+
+
 
 
 

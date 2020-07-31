@@ -14,8 +14,10 @@ class Tower:
         self.sell_price = [0,0,0]
         self.level= 1
         self.damage= 1
+        self.initialDamage= self.damage
 
         self.range = 0
+        self.initialRange = self.range
 
         #position of the tower
         self.pos_x = x
@@ -105,6 +107,7 @@ class Tower:
         if(self.level < len(self.tower_images)):
             self.level += 1
             self.damage +=1
+            self.initialDamage +=1
 
     #returns the cost of the next tower price
     def get_upgradeCost(self):
