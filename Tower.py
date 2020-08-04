@@ -33,6 +33,8 @@ class Tower:
         self.isSelected = False
         self.showMenu = False
 
+        self.place_color = (0,0,255, 100)
+
     #draws the range radius of the tower if it is clicked
     def drawRadius(self, window):
         # draw range of transparent circle only if isSelected is true
@@ -44,7 +46,7 @@ class Tower:
     # draws teh radius of the tower, used for placement
     def drawPlacement(self, window):
         surface = pygame.Surface((32 * 4, 32* 4), pygame.SRCALPHA, 32)
-        pygame.draw.circle(surface, (0, 0, 255, 100), (40, 40), 40, 0)
+        pygame.draw.circle(surface, self.place_color, (40, 40), 40, 0)
         window.blit(surface, (self.pos_x - 40 , self.pos_y -40))
 
     #draws the tower onto the window

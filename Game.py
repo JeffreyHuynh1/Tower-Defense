@@ -182,7 +182,16 @@ class Game:
                     self.timer = time.time()
                     self.generateWave()
 
-
+            # changes place_color tower accordingly depending if new tower is being placed in appropiate place
+            if self.newTower:
+                tower_list = self.attackTowers[:] + self.supportTowers[:]
+                for tower in tower_list:
+                    if tower.collide(self.newTower):
+                        tower.place_color = (255, 0, 0, 100)
+                        self.newTower.place_color = (255, 0, 0, 100)
+                    else:
+                        tower.place_color = (0, 0, 255, 100)
+                        self.newTower.place_color = (0, 0, 255, 100)
 
             #pygame.time.delay(200)
             for event in pygame.event.get():
