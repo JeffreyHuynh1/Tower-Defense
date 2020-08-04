@@ -31,6 +31,7 @@ gives more range to towers in the radius
 class RangeTower(Tower):
     def __init__(self, x, y):
         super(). __init__( x, y)
+        self.price=[1000,1500]
         self.range = 150
         self.effect = [.2, .4]
         self.tower_images = rangeImg[:]

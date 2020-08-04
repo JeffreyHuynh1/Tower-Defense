@@ -96,11 +96,13 @@ class Tower:
             self.isSelected = True
             self.showMenu = True
 
-            #if the upgrade button is clicked then we have to perform the upgrade
-            if score >= self.get_upgradeCost():
-                upgrade_cost = self.get_upgradeCost()
-                #perform upgrade
-                self.upgrade()
+            # checks to see if the tower can be upgraded
+            if self.upgradable():
+                #if the upgrade button is clicked then we have to perform the upgrade
+                if score >= self.get_upgradeCost():
+                    upgrade_cost = self.get_upgradeCost()
+                    #perform upgrade
+                    self.upgrade()
         return upgrade_cost
 
 
@@ -116,6 +118,12 @@ class Tower:
             self.level += 1
             self.damage +=1
             self.initialDamage +=1
+
+    #returns true if the tower can be upgraded, returns false other wise
+    def upgradable(self):
+        if(self.level < len(self.tower_images)):
+            return True
+        return False
 
     #returns the cost of the next tower price
     def get_upgradeCost(self):

@@ -318,6 +318,10 @@ class Game:
                         # remove a life if the enemy makes it through the whole path based on the damage property in enemy class
                         self.lives -= enemy.damage
 
+                        if self.lives <= 0:
+                            print('You Lose')
+                            run = False
+
                 #loop through attack towers and performs attack method
                 for tower in self.attackTowers:
                     # tower attack returns an int based on whether or not an enemy is killed, add this to the score
