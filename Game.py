@@ -22,8 +22,8 @@ class Game:
         self.window = pygame.display.set_mode((self.width, self.height))
         self.enemies=[]
         #ArcherTower(100, 580), , ArcherTower(900, 164)
-        self.attackTowers=[ ArcherTower(488, 170)]
-        self.supportTowers = [RangeTower(533, 164), DamageTower(452, 237)]
+        self.attackTowers=[ ]
+        self.supportTowers = []
 
         self.lives=10
         self.score = 1000
@@ -89,7 +89,7 @@ class Game:
                 self.waveSpawnCounter = self.wave * 5
                 #set pause back to true
                 self.pause = True
-                #change the image 
+                #change the image
                 self.playPauseButton.changeImage()
 
 
@@ -150,6 +150,14 @@ class Game:
 
         # if the newTower boolean is set to true draw that object on the screen
         if self.isNewTower:
+            # draws the radius of tower for new tower to see if it can be placed at the given location
+            for tower in self.attackTowers:
+                tower.drawPlacement(self.window)
+            for tower in self.supportTowers:
+                tower.drawPlacement(self.window)
+
+            self.newTower.drawPlacement(self.window)
+
             #need to call add Tower so the tower is being displayed on the window
             self.addTower(self.newTowerType)
             self.newTower.drawTower(self.window)
@@ -187,13 +195,23 @@ class Game:
 
                     # check to see if the condition for new tower creation is set to true
                     if self.isNewTower:
-                        if self.newTowerType in attackTowerNames:
-                            self.attackTowers.append(self.newTower)
-                        elif self.newTowerType in supportTowerNames:
-                            self.supportTowers.append(self.newTower)
 
-                        self.isNewTower = False
-                        self.newTowerType = ''
+                        not_allowed = False
+                        tower_list = self.attackTowers[:] + self.supportTowers[:]
+                        # if collide is true the the new tower is trying to be placed on existing tower
+                        for tower in tower_list:
+                            if tower.collide(self.newTower):
+                                not_allowed = True
+
+                        #check to see if the tower is being placed on a new tower, if it is not then you can place the tower in that position
+                        if not not_allowed:
+                            if self.newTowerType in attackTowerNames:
+                                self.attackTowers.append(self.newTower)
+                            elif self.newTowerType in supportTowerNames:
+                                self.supportTowers.append(self.newTower)
+
+                            self.isNewTower = False
+                            self.newTowerType = ''
 
                     #check to see if play or pause button is clciked
                     if self.playPauseButton.buttonClicked(pos[0], pos[1]):

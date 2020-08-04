@@ -1,6 +1,7 @@
 import os
 import pygame
 from Menu import UpgradeMenu
+import math
 
 '''
 Abstract class 
@@ -40,6 +41,11 @@ class Tower:
             pygame.draw.circle(surface, (169, 169, 169, 100), (self.range, self.range), self.range, 0)
             window.blit(surface, (self.pos_x - self.range, self.pos_y - self.range))
 
+    # draws teh radius of the tower, used for placement
+    def drawPlacement(self, window):
+        surface = pygame.Surface((32 * 4, 32* 4), pygame.SRCALPHA, 32)
+        pygame.draw.circle(surface, (0, 0, 255, 100), (40, 40), 40, 0)
+        window.blit(surface, (self.pos_x - 40 , self.pos_y -40))
 
     #draws the tower onto the window
     def drawTower(self, window):
@@ -114,5 +120,13 @@ class Tower:
         if(self.level < len(self.tower_images)):
             return self.price[self.level]
 
-    def move(self):
-        pass
+    #checks if a tower is on top of another tower when being placed on the map
+    def collide(self, tower):
+        x2 = tower.pos_x
+        y2 = tower.pos_y
+
+        distance = math.sqrt( math.pow(x2 - self.pos_x, 2) + math.pow(y2 - self.pos_y, 2))
+        if distance >= 80:
+            return False
+        else:
+            return True
