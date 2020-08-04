@@ -20,4 +20,4 @@ class Beast(Enemy):
         self.health = 3
         self.initial_health=3
         self.damage = 2
-        self.money = self.initial_health * 100
+        self.money = self.initial_health * 10

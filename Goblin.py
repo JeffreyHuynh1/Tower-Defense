@@ -20,5 +20,5 @@ class Goblin(Enemy):
         self.initial_health= 2
 
         self.damage = 1
-        self.money = self.initial_health * 100
+        self.money = self.initial_health * 10
 

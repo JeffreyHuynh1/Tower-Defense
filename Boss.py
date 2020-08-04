@@ -22,4 +22,4 @@ class Boss(Enemy):
         self.health = 5
         self.initial_health= 5
         self.damage = 3
-        self.money = self.initial_health * 100
+        self.money = self.initial_health * 10

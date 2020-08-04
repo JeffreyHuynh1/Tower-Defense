@@ -116,8 +116,8 @@ class Tower:
     def upgrade(self):
         if(self.level < len(self.tower_images)):
             self.level += 1
-            self.damage +=1
-            self.initialDamage +=1
+            self.damage +=.25
+            self.initialDamage +=.25
 
     #returns true if the tower can be upgraded, returns false other wise
     def upgradable(self):

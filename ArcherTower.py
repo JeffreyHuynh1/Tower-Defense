@@ -13,9 +13,10 @@ class ArcherTower(Tower):
         self.initialRange = 100
         self.inRange = False
         self.isLeft = False
-        self.damage = 2
+        self.damage = 1.25
+        self.initialDamage=1.25
         self.hit_timer = pygame.time.get_ticks()
-        self.cooldown = 1000
+        self.cooldown = 700
         self.price = [750,1000,1250]
 
         #loads the tower images into the list
@@ -142,8 +143,10 @@ class ArcherTowerShort(ArcherTower):
     def __init__(self, x, y):
         super() .__init__(x, y)
         self.archer_images = []
-        self.range = 150
+        self.range = 125
+        self.initialRange=150
         self.damage = 1
+        self.initialDamage =1
         self.cooldown = 700
         self.price = [500, 750, 1000]
         self.archer_images = towerShortArcher[:]
