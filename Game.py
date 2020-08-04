@@ -11,18 +11,23 @@ import random
 from Menu import MainMenu
 from numpy.random import choice
 
+pygame.init()
 pygame.font.init()
 
 attackTowerNames = ['short', 'long']
 supportTowerNames = ['range', 'damage']
+
+#load music
+pygame.mixer.init()
+song = pygame.mixer.music.load(os.path.join('assets', 'music.wav'))
+
 class Game:
     def __init__(self):
         self.width = 1100
         self.height = 700
         self.window = pygame.display.set_mode((self.width, self.height))
-        self.enemies=[]
-        #ArcherTower(100, 580), , ArcherTower(900, 164)
-        self.attackTowers=[ ]
+        self.enemies= []
+        self.attackTowers= []
         self.supportTowers = []
 
         self.lives=10
@@ -37,11 +42,17 @@ class Game:
         self.jewel = pygame.image.load(os.path.join("assets", "jewel.png"))
         self.text = pygame.font.Font('freesansbold.ttf', 40)
         self.menu = MainMenu(0, 85)
+        self.sound = pygame.transform.scale(pygame.image.load(os.path.join("assets", "sound.png")) , (64,64))
+        self.soundOff = pygame.transform.scale(pygame.image.load(os.path.join("assets", "soundOff.png")), (64, 64))
 
         self.playImage = pygame.transform.scale(pygame.image.load(os.path.join("assets", "start.png")) , (64,64))
         self.pauseImage = pygame.transform.scale(pygame.image.load(os.path.join("assets", "pause.png")) , (64,64))
-        self.playPauseButton = PlayPauseButton(self.width - self.playImage.get_width() - 10, 10, self.playImage, self.pauseImage)
+        self.playPauseButton = PlayPauseButton(self.width - self.playImage.get_width() , 5, self.playImage, self.pauseImage)
         self.pause = True
+
+        #sound button
+        self.soundButton = PlayPauseButton(self.width - self.playImage.get_width() , 69, self.sound, self.soundOff)
+        self.music_on = True
 
         #used to check if a new tower is being created
         self.isNewTower = False
@@ -165,10 +176,16 @@ class Game:
         # draw play pause button
         self.playPauseButton.drawButton(self.window)
 
+        #draw sound button
+        self.soundButton.drawButton(self.window)
+
         pygame.display.update()
 
 
     def run(self):
+        pygame.mixer.music.play(1)
+        #song.play(1)
+
         run = True
         clock = pygame.time.Clock()
         pygame.init()
@@ -185,13 +202,16 @@ class Game:
             # changes place_color tower accordingly depending if new tower is being placed in appropiate place
             if self.newTower:
                 tower_list = self.attackTowers[:] + self.supportTowers[:]
+                collide = False
                 for tower in tower_list:
                     if tower.collide(self.newTower):
+                        collide = True
                         tower.place_color = (255, 0, 0, 100)
                         self.newTower.place_color = (255, 0, 0, 100)
                     else:
                         tower.place_color = (0, 0, 255, 100)
-                        self.newTower.place_color = (0, 0, 255, 100)
+                        if not collide:
+                            self.newTower.place_color = (0, 0, 255, 100)
 
             #pygame.time.delay(200)
             for event in pygame.event.get():
@@ -222,10 +242,19 @@ class Game:
                             self.isNewTower = False
                             self.newTowerType = ''
 
-                    #check to see if play or pause button is clciked
+                    # check to see if play or pause button is clicked
                     if self.playPauseButton.buttonClicked(pos[0], pos[1]):
                         self.pause = not self.pause
                         self.playPauseButton.changeImage()
+
+                    # check to see music button is clicked
+                    if self.soundButton.buttonClicked(pos[0], pos[1]):
+                        self.music_on = not self.music_on
+                        self.soundButton.changeImage()
+                        if self.music_on:
+                            pygame.mixer.music.unpause()
+                        else:
+                            pygame.mixer.music.pause()
 
                     # check if any of the menu buttons are clicked
                     for button in self.menu.buttons:
