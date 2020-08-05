@@ -6,10 +6,10 @@ python Game.py
 
 ## What did I learn
 - Game development with Pygame
- - Frame animation
- - Tower click functionality
- - Tower upgrading system
- - Tower and enemy attacking mechanism 
- - Tower collision upon creating new towers (making sure that you don't place a tower on top of another tower)
- - Generation of enemy waves
+  - Frame animation
+  - Tower click functionality
+  - Tower upgrading system
+  - Tower and enemy attacking mechanism 
+  - Tower collision upon creating new towers (making sure that you don't place a tower on top of another tower)
+  - Generation of enemy waves
  
