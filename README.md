@@ -10,6 +10,6 @@ python Game.py
   - Tower click functionality
   - Tower upgrading system
   - Tower and enemy attacking mechanism 
-  - Tower collision upon creating new towers (making sure that you don't place a tower on top of another tower)
+  - Detecting tower collision upon creating new towers (making sure that you don't place a tower on top of another tower)
   - Generation of enemy waves
  
